@@ -1,13 +1,11 @@
-# CS359B Project (ADD NAME HERE)
+# CS359B Project Bequeath 
+We are building a smart-contract based decentralized trust fund to allow for the secure transfer of crypto-assets on the Ethereum blockchain. This dapp allows users to pass on their fungible and non-fungible assets to a designated party (or several designated parties in sequential next-of-kin fashion) who can claim the assets after a certain lockup period set by the grantor elapses. We implement both revocable and irrevocable trusts that support the bequeathal of Ethereum, ERC-20 tokens, and ERC-721 tokens. 
 
-(short description here)
 
 ## Technologies used
 
-(Add only the specific technologies you need to use until Midterm)
+Solidity, JQuery, Web3 libraries
 
-* (e.g. solidity, react, node, mysql)
+## Installation intructions
 
-## Istallation intructions
-
-(add simple instructions on how to run the code here)
+TBD
