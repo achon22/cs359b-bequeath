@@ -1,79 +1,86 @@
 function app() {
-    // if (typeof web3 == 'undefined') throw 'No web3 detected. Is Metamask/Mist being used?';
-    // web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
-    // console.log("Using web3 version: " + Web3.version);
-    //
-    // var contract;
-    // var userAccount;
-    //
-    // var contractDataPromise = $.getJSON('CardinalToken.json');
-    // var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
-    // var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
-    //
-    // Promise.all([contractDataPromise, networkIdPromise, accountsPromise])
-    //   .then(function initApp(results) {
-    //     var contractData = results[0];
-    //     var networkId = results[1];
-    //     var accounts = results[2];
-    //     userAccount = accounts[0];
-    //
-    //     // (todo) Make sure the contract is deployed on the network to which our provider is connected
-    //     // Make sure the contract is deployed on the connected network
-    //     if (!(networkId in contractData.networks)) {
-    //        throw new Error("Contract not found in selected Ethereum network on MetaMask.");
-    //     }
-    //
-    //     var contractAddress = contractData.networks[networkId].address;
-    //     contract = new web3.eth.Contract(contractData.abi, contractAddress);
-    //   })
-    //   // Refresh balance instead of printing to the console
-    //   .then(refreshBalance)
-    //   .catch(console.error);
-    //   function refreshBalance() { // Returns web3's PromiEvent
-    //    // Calling the contract (try with/without declaring view)
-    //    contract.methods.balanceOf(userAccount).call().then(function (balance) {
-    //      $('#display').text(balance + " CDT");
-    //      $("#loader").hide();
-    //    });
-    //  }
-    //
-    //  function transfer(to, amount) {
-    //     console.log(to, amount)
-    //     if (!to || !amount) return console.log("Fill in both fields");
-    //
-    //     $("#loader").show();
-    //
-    //     contract.methods.transfer(to, amount).send({from: userAccount})
-    //       .then(refreshBalance)
-    //       .catch(function (e) {
-    //         $("#loader").hide();
-    //       });
-    //   }
-    //
-    //   $("#button").click(function() {
-    //     var toAddress = $("#address").val();
-    //     var amount = $("#amount").val();
-    //     transfer(toAddress, amount);
-    //   });
-    //
-    //   function mint(amount){
-    //     contract.methods.mint(amount).send({from: userAccount})
-    //       .then(refreshBalance)
-    //       .catch(function (e) {
-    //         $("#loader").hide();
-    //       });
-    //   }
-    //
-    //   $("#mintbutton").click(function() {
-    //     var amount = parseInt($("#mint").val());
-    //     console.log(amount);
-    //     if (amount === NaN){
-    //       alert('Please input a natural number');
-    //     }else{
-    //       mint(amount);
-    //     }
-    //
-    //   });
+    if (typeof web3 == 'undefined') throw 'No web3 detected. Is Metamask/Mist being used?';
+    web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
+    console.log("Using web3 version: " + Web3.version);
+
+    var contract;
+    var userAccount;
+
+    var contractDataPromise = $.getJSON('BequeathContract.json');
+    var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
+    var accountsPromise = web3.eth.getAccounts(); // resolves on an array of accounts
+
+    Promise.all([contractDataPromise, networkIdPromise, accountsPromise])
+      .then(function initApp(results) {
+        var contractData = results[0];
+        var networkId = results[1];
+        var accounts = results[2];
+        userAccount = accounts[0];
+
+        // (todo) Make sure the contract is deployed on the network to which our provider is connected
+        // Make sure the contract is deployed on the connected network
+        if (!(networkId in contractData.networks)) {
+           throw new Error("Contract not found in selected Ethereum network on MetaMask.");
+        }
+
+        var contractAddress = contractData.networks[networkId].address;
+        contract = new web3.eth.Contract(contractData.abi, contractAddress);
+      })
+      // Refresh balance instead of printing to the console
+      // .then(refreshBalance)
+      .catch(console.error);
+
+
+      $("#createTrustButton").click(function() {
+        var toAddress = $("#address").val();
+        var amount = $("#amount").val();
+        var date = $("#datepicker").val();
+        console.log(toAddress);
+        console.log(amount);
+        console.log(date);
+        // TODO: type checking and error handling
+        // transfer(toAddress, amount);
+      });
+
+      // function mint(amount){
+      //   contract.methods.mint(amount).send({from: userAccount})
+      //     .then(refreshBalance)
+      //     .catch(function (e) {
+      //       $("#loader").hide();
+      //     });
+      // }
+
+      // $("#mintbutton").click(function() {
+      //   var amount = parseInt($("#mint").val());
+      //   console.log(amount);
+      //   if (amount === NaN){
+      //     alert('Please input a natural number');
+      //   }else{
+      //     mint(amount);
+      //   }
+      //
+      // });
+
+      // function refreshBalance() { // Returns web3's PromiEvent
+      //  // Calling the contract (try with/without declaring view)
+      //    contract.methods.balanceOf(userAccount).call().then(function (balance) {
+      //      $('#display').text(balance + " CDT");
+      //      $("#loader").hide();
+      //    });
+      //  }
+
+     // function transfer(to, amount) {
+     //    console.log(to, amount)
+     //    if (!to || !amount) return console.log("Fill in both fields");
+     //
+     //    $("#loader").show();
+     //
+     //    contract.methods.transfer(to, amount).send({from: userAccount})
+     //      .then(refreshBalance)
+     //      .catch(function (e) {
+     //        $("#loader").hide();
+     //      });
+     //  }
     $(document).ready(function() {
       $("#datepicker").datepicker();
     });
