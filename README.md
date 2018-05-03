@@ -7,4 +7,13 @@ Solidity, JQuery, Web3 libraries
 
 ## Installation intructions
 
-TBD
+```
+rm -rf node_modules
+npm install -g truffle
+
+# install lite-server: a simple local web server
+npm install lite-server
+
+npm start
+
+```
