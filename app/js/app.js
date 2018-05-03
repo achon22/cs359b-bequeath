@@ -30,6 +30,12 @@ function app() {
       // .then(refreshBalance)
       .catch(console.error);
 
+      function bequeath(toAddress, amount, date){
+          contract.methods.bequeath(toAddress, date).send({from: userAccount, value: amount*1000000000000000000, gas: 250000})
+            .catch(function (e) {
+              console.log(e);
+            });
+      }
 
       $("#createTrustButton").click(function() {
         var toAddress = $("#address").val();
@@ -40,15 +46,20 @@ function app() {
         console.log(date);
         // TODO: type checking and error handling
         bequeath(toAddress, amount, date);
-        // transfer(toAddress, amount);
       });
 
-      function bequeath(toAddress, amount, date){
-          contract.methods.bequeath(toAddress, date).send({from: userAccount, value: amount*1000000000000000000, gas: 250000})
-            .catch(function (e) {
-              console.log(e);
-            });
+      function claim(){
+        contract.methods.claim().send({from: userAccount, gas: 250000})
+          .catch(function (e) {
+            console.log(e);
+          });
       }
+
+      $("#claimTrust").click(function() {
+        claim();
+      });
+
+
 
     $(document).ready(function() {
       $("#datepicker").datepicker();

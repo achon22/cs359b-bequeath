@@ -15,36 +15,40 @@
       <link rel="stylesheet" type="text/css" href="css/app.css">
    </head>
    <body>
-       <div class="container">
-           <h1>Bequeath</h1>
-           <h3>Ethereum Decentralized Trust Fund</h3>
+     <div class="container">
+       <h1>Bequeath</h1>
+       <h3>Ethereum Decentralized Trust Fund</h3>
+    </div>
+     <div class="container">
+         <!-- <img src="./img/bank_image.png"> -->
+         <label for="address" class="col-lg-2 control-label">What is the address of your beneficiary?</label>
+         <input id="address" type="text"  placeholder="Enter beneficiary ETH address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter beneficiary ETH address here'">
 
-           <!-- <img src="./img/bank_image.png"> -->
+         <label for="amount" class="col-lg-2 control-label">Enter amount of Ethereum to bequeath:</label>
+         <input id="amount" type="text"  placeholder="Amount of ETH" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Amount of ETH'">
 
-           <label for="address" class="col-lg-2 control-label">What is the address of your beneficiary?</label>
-           <input id="address" type="text"  placeholder="Enter beneficiary ETH address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter beneficiary ETH address here'">
+         <label for="datepicker" class="col-lg-2 control-label">Enter date to release funds:</label>
+         <form>
+             <input id="datepicker" id="date" placeholder="MM/DD/YYYY" onfocus="this.placeholder = ''"onblur="this.placeholder = 'MM/DD/YYYY'" />
+         </form>
+         <button id="createTrustButton">Create Trust Fund</button>
 
-           <label for="amount" class="col-lg-2 control-label">Enter amount of Ethereum to bequeath:</label>
-           <input id="amount" type="text"  placeholder="Amount of ETH" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Amount of ETH'">
+         <!-- <h2 id="display"></h2>
+         <img id="loader" src="https://loading.io/spinners/pacman/lg.eat-bean-pie-loading-gif.gif">
+         <label for="address" class="col-lg-2 control-label">Send to address</label>
+         <input id="address" type="text">
+         <label for="amount" class="col-lg-2 control-label">Amount</label>
+         <input id="amount" type="text">
+         <button id="button">Give'em</button>
 
-           <label for="datepicker" class="col-lg-2 control-label">Enter date to release funds:</label>
-           <form>
-               <input id="datepicker" id="date" placeholder="MM/DD/YYYY" onfocus="this.placeholder = ''"onblur="this.placeholder = 'MM/DD/YYYY'" />
-           </form>
-           <button id="createTrustButton">Create Trust Fund</button>
+         <label for="mint" class="col-lg-2 control-label">Number of new tokens</label>
+         <input id="mint" type="text">
+         <button id="mintbutton">Mint</button> -->
+     </div>
 
-           <!-- <h2 id="display"></h2>
-           <img id="loader" src="https://loading.io/spinners/pacman/lg.eat-bean-pie-loading-gif.gif">
-           <label for="address" class="col-lg-2 control-label">Send to address</label>
-           <input id="address" type="text">
-           <label for="amount" class="col-lg-2 control-label">Amount</label>
-           <input id="amount" type="text">
-           <button id="button">Give'em</button>
-
-           <label for="mint" class="col-lg-2 control-label">Number of new tokens</label>
-           <input id="mint" type="text">
-           <button id="mintbutton">Mint</button> -->
-
-       </div>
+     <div class="container">
+       <h3>Claim my Trust</h3>
+       <button id="claimTrust">Claim my Funds</button>
+    </div>
    </body>
 </html>
