@@ -23,7 +23,7 @@ function app() {
            throw new Error("Contract not found in selected Ethereum network on MetaMask.");
         }
 
-        var contractAddress = contractData.networks[networkId].address;
+        var contractAddress = '0x807D7F5F1C5D8FA77AdFacB4a551E8c57Eb34745';//contractData.networks[networkId].address;
         contract = new web3.eth.Contract(contractData.abi, contractAddress);
       })
       // Refresh balance instead of printing to the console
@@ -33,54 +33,23 @@ function app() {
 
       $("#createTrustButton").click(function() {
         var toAddress = $("#address").val();
-        var amount = $("#amount").val();
-        var date = $("#datepicker").val();
+        var amount = parseInt($("#amount").val());
+        var date = new Date($("#datepicker").val()).getTime()/1000;
         console.log(toAddress);
         console.log(amount);
         console.log(date);
         // TODO: type checking and error handling
+        bequeath(toAddress, amount, date);
         // transfer(toAddress, amount);
       });
 
-      // function mint(amount){
-      //   contract.methods.mint(amount).send({from: userAccount})
-      //     .then(refreshBalance)
-      //     .catch(function (e) {
-      //       $("#loader").hide();
-      //     });
-      // }
+      function bequeath(toAddress, amount, date){
+          contract.methods.bequeath(toAddress, date).send({from: userAccount, value: amount*1000000000000000000, gas: 250000})
+            .catch(function (e) {
+              console.log(e);
+            });
+      }
 
-      // $("#mintbutton").click(function() {
-      //   var amount = parseInt($("#mint").val());
-      //   console.log(amount);
-      //   if (amount === NaN){
-      //     alert('Please input a natural number');
-      //   }else{
-      //     mint(amount);
-      //   }
-      //
-      // });
-
-      // function refreshBalance() { // Returns web3's PromiEvent
-      //  // Calling the contract (try with/without declaring view)
-      //    contract.methods.balanceOf(userAccount).call().then(function (balance) {
-      //      $('#display').text(balance + " CDT");
-      //      $("#loader").hide();
-      //    });
-      //  }
-
-     // function transfer(to, amount) {
-     //    console.log(to, amount)
-     //    if (!to || !amount) return console.log("Fill in both fields");
-     //
-     //    $("#loader").show();
-     //
-     //    contract.methods.transfer(to, amount).send({from: userAccount})
-     //      .then(refreshBalance)
-     //      .catch(function (e) {
-     //        $("#loader").hide();
-     //      });
-     //  }
     $(document).ready(function() {
       $("#datepicker").datepicker();
     });
