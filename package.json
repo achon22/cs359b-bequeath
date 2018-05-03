@@ -1,7 +1,7 @@
 {
   "name": "dapp",
   "version": "1.0.0",
-  "description": "",
+  "description": "We are building a smart-contract based decentralized trust fund to allow for the secure transfer of crypto-assets on the Ethereum blockchain. This dapp allows users to pass on their fungible and non-fungible assets to a designated party (or several designated parties in sequential next-of-kin fashion) who can claim the assets after a certain lockup period set by the grantor elapses. We implement both revocable and irrevocable trusts that support the bequeathal of Ethereum, ERC-20 tokens, and ERC-721 tokens.",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
@@ -15,5 +15,14 @@
   "license": "ISC",
   "devDependencies": {
     "lite-server": "^2.3.0"
-  }
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dappdevelopment/cs359b-bequeath.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dappdevelopment/cs359b-bequeath/issues"
+  },
+  "homepage": "https://github.com/dappdevelopment/cs359b-bequeath#readme"
 }

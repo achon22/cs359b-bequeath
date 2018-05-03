@@ -74,6 +74,9 @@ function app() {
     //     }
     //
     //   });
+    $(document).ready(function() {
+      $("#datepicker").datepicker();
+    });
 
 }
 $(document).ready(app);
