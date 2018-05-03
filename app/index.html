@@ -4,13 +4,31 @@
       <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://dapps.stanford.edu/web3/web3-1.0.0-beta.34.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+      <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
       <script src="js/app.js"></script>
+
       <link rel="stylesheet" type="text/css" href="css/app.css">
    </head>
    <body>
-       <!-- <div class="container">
-           <h1>CardinalToken Wallet</h1>
-           <h2 id="display"></h2>
+       <div class="container">
+           <h1>Bequeath</h1>
+           <h2>Ethereum Decentralized Trust Fund</h2>
+
+           <!-- <img src="./img/bank_image.png"> -->
+           <label for="address" class="col-lg-2 control-label">What is the address of your beneficiary?</label>
+           <input id="Beneficiary Address" type="text"  placeholder="Enter your beneficiary ETH address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter your beneficiary ETH address here'">
+
+           <label for="amount" class="col-lg-2 control-label">Enter amount of Ethereum to bequeath:</label>
+           <input id="Ethereum amount" type="text"  placeholder="Amount of ETH" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Amount of ETH'">
+
+           <label for="date" class="col-lg-2 control-label">Enter date to release funds:</label>
+           <form>
+               <input id="datepicker" id="Enter Fund Release Date" placeholder="MM/DD/YYYY" onfocus="this.placeholder = ''"onblur="this.placeholder = 'MM/DD/YYYY'" />
+           </form>
+           <button id="button">Create Trust Fund</button>
+
+           <!-- <h2 id="display"></h2>
            <img id="loader" src="https://loading.io/spinners/pacman/lg.eat-bean-pie-loading-gif.gif">
            <label for="address" class="col-lg-2 control-label">Send to address</label>
            <input id="address" type="text">
@@ -20,8 +38,8 @@
 
            <label for="mint" class="col-lg-2 control-label">Number of new tokens</label>
            <input id="mint" type="text">
-           <button id="mintbutton">Mint</button>
+           <button id="mintbutton">Mint</button> -->
 
-       </div> -->
+       </div>
    </body>
 </html>
