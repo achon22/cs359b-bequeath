@@ -39,7 +39,7 @@ function app() {
 
       $("#createTrustButton").click(function() {
         var toAddress = $("#address").val();
-        var amount = parseInt($("#amount").val());
+        var amount = parseFloat($("#amount").val());
         var date = new Date($("#datepicker").val()).getTime()/1000;
         console.log(toAddress);
         console.log(amount);
