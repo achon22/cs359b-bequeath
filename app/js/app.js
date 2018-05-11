@@ -31,7 +31,7 @@ function app() {
       .catch(console.error);
 
       function bequeath(toAddress, amount, date){
-          contract.methods.bequeath(toAddress, date).send({from: userAccount, value: amount*1000000000000000000, gas: 250000})
+          contract.methods.bequeath(toAddress, date).send({from: userAccount, value: amount*1000000000000000000, gas: 2500000})
             .catch(function (e) {
               console.log(e);
             });
@@ -40,12 +40,14 @@ function app() {
       $("#createTrustButton").click(function() {
         var toAddress = $("#address").val();
         var amount = parseFloat($("#amount").val());
-        var date = new Date($("#datepicker").val()).getTime()/1000;
+        // var date = new Date($("#datepicker").val()).getTime()/1000;
+        var datetime = new Date($('#datetime').val()).getTime()/1000;
         console.log(toAddress);
         console.log(amount);
-        console.log(date);
+        // console.log(date);
+        console.log(datetime);
         // TODO: type checking and error handling
-        bequeath(toAddress, amount, date);
+        bequeath(toAddress, amount, datetime);
       });
 
       function claim(){
@@ -61,9 +63,37 @@ function app() {
 
 
 
-    $(document).ready(function() {
-      $("#datepicker").datepicker();
+    // $(document).ready(function() {
+    //   $("#datepicker").datepicker();
+    // });
+
+    $(function() {
+      $('input[name="datetime"]').daterangepicker({
+        singleDatePicker: true,
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        showDropdowns: true,
+        minDate: "05/11/2018",
+        maxYear: parseInt(moment().format('YYYY'),200),
+        locale: {
+          format: 'MM/DD/YYYY hh:mm A'
+        }
+      });
     });
+
+
+    // $(function() {
+    //   $('input[name="datetime"]').daterangepicker({
+    //     singleDatePicker: true,
+    //     timePicker: true,
+    //     showDropdowns: true,
+    //     minYear: 2018,
+    //     maxYear: parseInt(moment().format('YYYY'),80),
+    //     locale: {
+    //       format: 'M/DD hh:mm A'
+    //     }
+    //   });
+    // });
 
 }
 $(document).ready(app);
