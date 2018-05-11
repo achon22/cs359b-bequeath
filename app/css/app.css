@@ -5,8 +5,8 @@ input { Padding:10px; width: 50%; margin-bottom: 1em; }
 button { margin: 2em 0; padding: 1em 4em; Display:block; }
 #display { padding:1em; height: 1em; background-color:#fff; margin: 1em 0; text-align: center; }
 #loader { width: 100px; display: none; }
-body{ 
-    background:url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/wild_oliva.png);
+body{
+    /* background:url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/wild_oliva.png); */
 }
 .centered {
   margin:50px auto;
@@ -31,7 +31,7 @@ body{
   text-decoration: none;
   white-space: nowrap;
   color: #555;
-  
+
   background-color: #ddd;
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,1)), to(rgba(255,255,255,0)));
   background-image: -webkit-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
@@ -39,7 +39,7 @@ body{
   background-image: -ms-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
   background-image: -o-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
   background-image: linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
-  
+
   -webkit-transition: background-color .2s ease-out;
   -moz-transition: background-color .2s ease-out;
   -ms-transition: background-color .2s ease-out;
@@ -53,7 +53,7 @@ body{
   -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
   box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
   text-shadow: 0 1px 0 rgba(255,255,255, .9);
-  
+
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -112,7 +112,7 @@ body{
 .button.green, .button.red, .button.blue {
   color: #fff;
   text-shadow: 0 1px 0 rgba(0,0,0,.2);
-  
+
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.3)), to(rgba(255,255,255,0)));
   background-image: -webkit-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
   background-image: -moz-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));

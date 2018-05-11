@@ -23,7 +23,7 @@ function app() {
            throw new Error("Contract not found in selected Ethereum network on MetaMask.");
         }
 
-        var contractAddress = '0x807D7F5F1C5D8FA77AdFacB4a551E8c57Eb34745';//contractData.networks[networkId].address;
+        var contractAddress = '0x92be4602c5847a9ca3a297f06fd882891fa36957';//contractData.networks[networkId].address;
         contract = new web3.eth.Contract(contractData.abi, contractAddress);
       })
       // Refresh balance instead of printing to the console
