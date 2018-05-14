@@ -3800,11 +3800,17 @@
     "version": "0.4.23+commit.124ca40d.Emscripten.clang"
   },
   "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x807D7F5F1C5D8FA77AdFacB4a551E8c57Eb34745",
+      "transactionHash": "0x82a45faf4f66db9da37691f7b541bcacd245041675d267bf6a0551d800599968"
+    },
     "4": {
       "events": {},
       "links": {},
-      "address": "0x92be4602c5847a9ca3a297f06fd882891fa36957",
-      "transactionHash": "0x87617fb2644867d5baf9a1852868ae7c0f5ae4c287c7a607ea249a1d3b8dac7e0x87617"
+      "address": "0xb6057af7b13f72115478c70ea0483267e5b99ff3",
+      "transactionHash": "0x4885c21e6d9690cee64779130755823072be2bc7a3d4becb823d5181ab18c3ce"
     }
   },
   "schemaVersion": "2.0.0",
