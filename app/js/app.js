@@ -67,19 +67,19 @@ function app() {
     //   $("#datepicker").datepicker();
     // });
 
-    $(function() {
-      $('input[name="datetime"]').daterangepicker({
-        singleDatePicker: true,
-        timePicker: true,
-        startDate: moment().startOf('hour'),
-        showDropdowns: true,
-        minDate: "05/11/2018",
-        maxYear: parseInt(moment().format('YYYY'),200),
-        locale: {
-          format: 'MM/DD/YYYY hh:mm A'
-        }
-      });
-    });
+    //$(function() {
+    //  $('input[name="datetime"]').daterangepicker({
+    //    singleDatePicker: true,
+    //    timePicker: true,
+    //    startDate: moment().startOf('hour'),
+    //    showDropdowns: true,
+    //    minDate: "05/11/2018",
+    //    maxYear: parseInt(moment().format('YYYY'),200),
+    //    locale: {
+    //      format: 'MM/DD/YYYY hh:mm A'
+    //    }
+    //  });
+    //});
 
 
     // $(function() {
