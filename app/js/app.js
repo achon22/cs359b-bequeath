@@ -62,6 +62,8 @@ function app() {
         })
         .catch(function(e){
           console.log(e);
+          console.log(e.toString());
+          document.getElementById("current-amount").innerHTML = e.toString();
         })
     }
 
@@ -69,10 +71,11 @@ function app() {
       contract.methods.viewMyIds(address).call()
         .then(function (ids){
           console.log(ids);
-          $("#current-amount").innerHTML = ids;
+          document.getElementById("current-amount").innerHTML = ids;
         })
         .catch(function(e){
           console.log(e);
+          document.getElementById("current-amount").innerHTML = e;
         })
     }
 
@@ -100,10 +103,27 @@ function app() {
         claim();
       });
 
+      var select = '';
+      for (i=0;i<=25;i++){
+          select += '<option val=' + i + '>' + i + '</option>';
+      }
+      $('#erc20selector').html(select);
+      $('#erc20selector').on('change', function(){
+        addERC20addresses(this.value);
+      })
+      function addERC20addresses(num) {
+        htmlString = "";
+        for (var i = 0; i < num; i++){
+          htmlString += `<div class=row><input id="erc20"` + i +` type="text"  placeholder="Enter ERC-20 contract address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter ERC-20 contract address here'"></div>`
+        }
+        htmlString += `<div id="numERC20" style="display: none;">` + num + `</div>`
+        $('#erc20addresses').html(htmlString);
+      }
 
-
-
-
-
+      $(function () {
+  		    $('#datetimepicker9').datetimepicker({
+  			viewMode: 'years'
+  		    });
+  		});
 }
 $(document).ready(app);

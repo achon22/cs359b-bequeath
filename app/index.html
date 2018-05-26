@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="container" id="current-amount">
-
+      testing
     </div>
 
      <div class="container">
@@ -47,16 +47,23 @@
          <input id="address" type="text"  placeholder="Enter beneficiary ETH address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter beneficiary ETH address here'">
 	 </div>
 
-         <div class=row>
+     <div class=row>
          <label for="amount" class="col-lg-3 control-label">Enter amount of Ethereum to bequeath:</label>
 
 
 	     <input id="amount" type="text"  placeholder="Amount of ETH" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Amount of ETH'">
      </div>
 
+     <div class=row>
+         <label for="erc20selector" class="col-lg-3 control-label">Enter number of ERC-20 tokens to bequeath:</label>
+         <select id='erc20selector'></select>​
+         <div id='erc20addresses'>
+         </div>
+     </div>
+
          <div class=row>
          <label for="datetime" class="col-lg-3 control-label">Enter date to release funds:</label>
-	    <div class="col-lg-2" style="height:130px;width:200px">
+
 		<div class="form-group">
 		    <div class='input-group date' id='datetimepicker9'>
 			<input type='text' name='datetime' id='datetime' class="form-control" />
@@ -66,14 +73,6 @@
 			</span>
 		    </div>
 		</div>
-	    </div>
-	    <script type="text/javascript">
-		$(function () {
-		    $('#datetimepicker9').datetimepicker({
-			viewMode: 'years'
-		    });
-		});
-	    </script>
           <button id="createTrustButton" class="small blue button">Create Trust Fund</button>
 	  </div>
      </div>
