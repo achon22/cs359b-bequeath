@@ -31,7 +31,6 @@ function app() {
     .catch(console.error);
 
     function bequeath(toAddress, amount, date){
-      // bequeath(uint _type, address _contractAddress, address[] _beneficiaries, uint[] _dates, uint256[] _tokenIds)
       var _type = 1;
       var _contractAddress = toAddress;
       var _beneficiaries = [toAddress];
@@ -41,6 +40,40 @@ function app() {
         .catch(function (e) {
           console.log(e);
         });
+    }
+
+    $("#viewFunds").click(function(){
+      viewMyFunds(userAccount);
+    });
+
+    $("#viewBequeathal").click(function(){
+      viewBequeathal(2);
+    })
+
+    function viewBequeathal(id){
+      contract.methods.viewBequeathal(id).call()
+        .then(function (a,b,c,d,e,f){
+          console.log(a);
+          console.log(b);
+          console.log(c);
+          console.log(d);
+          console.log(e);
+          console.log(f);
+        })
+        .catch(function(e){
+          console.log(e);
+        })
+    }
+
+    function viewMyFunds(address){
+      contract.methods.viewMyIds(address).call()
+        .then(function (ids){
+          console.log(ids);
+          $("#current-amount").innerHTML = ids;
+        })
+        .catch(function(e){
+          console.log(e);
+        })
     }
 
       $("#createTrustButton").click(function() {
@@ -66,6 +99,7 @@ function app() {
       $("#claimTrust").click(function() {
         claim();
       });
+
 
 
 

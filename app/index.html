@@ -27,13 +27,26 @@
        <h1>Bequeath</h1>
        <h3>Ethereum Decentralized Trust Fund</h3>
     </div>
+
+    <div class="container">
+      <div class=row>
+        <button id="viewFunds" class="small blue button">View My Funds</button>
+      </div>
+      <div class=row>
+        <button id="viewBequeathal" class="small blue button">View Bequeathal</button>
+      </div>
+    </div>
+    <div class="container" id="current-amount">
+
+    </div>
+
      <div class="container">
          <!-- <img src="./img/bank_image.png"> -->
          <div class=row>
          <label for="address" class="col-lg-3 control-label">What is the address of your beneficiary?</label>
          <input id="address" type="text"  placeholder="Enter beneficiary ETH address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter beneficiary ETH address here'">
 	 </div>
-         
+
          <div class=row>
          <label for="amount" class="col-lg-3 control-label">Enter amount of Ethereum to bequeath:</label>
 
@@ -43,11 +56,6 @@
 
          <div class=row>
          <label for="datetime" class="col-lg-3 control-label">Enter date to release funds:</label>
-         <!-- <form>
-             <input id="datepicker" id="date" placeholder="MM/DD/YYYY" onfocus="this.placeholder = ''"onblur="this.placeholder = 'MM/DD/YYYY'" />
-         </form> -->
-
-         <!--<input type="text" id='datetime' name="datetime" value="MM/DD/YYYY" />-->
 	    <div class="col-lg-2" style="height:130px;width:200px">
 		<div class="form-group">
 		    <div class='input-group date' id='datetimepicker9'>

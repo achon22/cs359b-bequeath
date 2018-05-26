@@ -19,6 +19,23 @@ contract BequeathContract {
    current_id = 0;
  }
 
+ function viewBequeathal(uint id) public view returns (Bequeathal bequeathal){
+   return IdToBequeathal[id];
+ }
+
+ function viewMyIds(address beneficiary) public view returns (uint[] ids){
+   return BeneficiaryToIds[beneficiary];
+ }
+
+ function viewMyBequeathals(address beneficiary) public view returns (Bequeathal[] bequeathals){
+   uint len = BeneficiaryToIds[beneficiary].length;
+   bequeathals = new Bequeathal[](len);
+   for (uint i = 0; i < len; i++){
+     bequeathals[i] = IdToBequeathal[i];
+   }
+   return bequeathals;
+ }
+
  function bequeath(uint _type, address _contractAddress, address[] _beneficiaries, uint[] _dates, uint256[] _tokenIds) public payable returns (bool success){
     current_id += 1;
     BeneficiaryToIds[msg.sender].push(current_id);
