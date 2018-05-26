@@ -1,4 +1,4 @@
-pragma solidity ^0.4.17;
+pragma experimental ABIEncoderV2; // Adds ability to pass structs as function arguments.
 
 contract Migrations {
   address public owner;

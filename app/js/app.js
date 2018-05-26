@@ -23,7 +23,7 @@ function app() {
          throw new Error("Contract not found in selected Ethereum network on MetaMask.");
       }
 
-      var contractAddress = '0xb6057af7b13f72115478c70ea0483267e5b99ff3';//contractData.networks[networkId].address;
+      var contractAddress = contractData.networks[networkId].address;
       contract = new web3.eth.Contract(contractData.abi, contractAddress);
     })
     // Refresh balance instead of printing to the console
@@ -31,10 +31,16 @@ function app() {
     .catch(console.error);
 
     function bequeath(toAddress, amount, date){
-        contract.methods.bequeath(toAddress, date).send({from: userAccount, value: amount*1000000000000000000, gas: 2500000})
-          .catch(function (e) {
-            console.log(e);
-          });
+      // bequeath(uint _type, address _contractAddress, address[] _beneficiaries, uint[] _dates, uint256[] _tokenIds)
+      var _type = 1;
+      var _contractAddress = toAddress;
+      var _beneficiaries = [toAddress];
+      var _dates = [date];
+      var _tokenIds = [1];
+      contract.methods.bequeath(_type, _contractAddress, _beneficiaries, _dates, _tokenIds).send({from: userAccount, value: web3.utils.toWei(amount.toString(), 'ether')})
+        .catch(function (e) {
+          console.log(e);
+        });
     }
 
       $("#createTrustButton").click(function() {

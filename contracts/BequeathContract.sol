@@ -10,8 +10,8 @@ contract BequeathContract {
  }
 
  /* mapping (address => address) private BeneficiaryToDonor; */
- mapping (uint => Bequeathal) private IdToBequeathal;
- mapping (address => uint[]) private BeneficiaryToIds;
+ mapping (uint => Bequeathal) internal IdToBequeathal;
+ mapping (address => uint[]) internal BeneficiaryToIds;
  uint256 balance;
  uint256 current_id;
  constructor() public{
@@ -20,18 +20,15 @@ contract BequeathContract {
  }
 
  function bequeath(uint _type, address _contractAddress, address[] _beneficiaries, uint[] _dates, uint256[] _tokenIds) public payable returns (bool success){
-    if (IdToBequeathal[current_id+1].tokenType==0){
-      return false;
-    }
-    current_id+=1;
+    current_id += 1;
     BeneficiaryToIds[msg.sender].push(current_id);
     Bequeathal memory newBequeathal;
-    if (_type==1) {
+    if (_type == 1) {
       newBequeathal = Bequeathal(_type, msg.value, _beneficiaries, _dates, 0x0);
       IdToBequeathal[current_id] = newBequeathal;
       fillBeneficiaryToIds(_beneficiaries, current_id);
-      balance+=msg.value;
-    } else if (_type==20) {
+      balance += msg.value;
+    } else if (_type == 20) {
       //assume approved
        ERC20Token erc20TokenContract = ERC20Token(_contractAddress);
        uint amount = erc20TokenContract.allowance(msg.sender, address(this));
@@ -43,7 +40,7 @@ contract BequeathContract {
        } else {
          return false;
        }
-    } else if (_type==721){
+    } else if (_type == 721){
        ERC721Token erc721TokenContract = ERC721Token(_contractAddress);
        for (uint i = 0; i < _tokenIds.length; i++) {
           uint256 id = _tokenIds[i];
@@ -56,7 +53,6 @@ contract BequeathContract {
           current_id += _tokenIds.length;
        }
     }
-
     return true;
  }
 
@@ -208,34 +204,3 @@ contract ERC721Token {
     ///  `interfaceID` is not 0xffffffff, `false` otherwise
     function supportsInterface(bytes4 interfaceID) external view returns (bool);
 }
-
-/*
-mapping(address => id[])
-
-id0 -> Bequeathal struct
-		{
-		type: ether
-		contract address: null
-		Amount,
-		address[]
-		dates[]
-		}
-
-id1 -> Bequeathal struct
-		{
-		type: erc-20 augur
-		contract address
-		Amount,
-		address[]
-		dates[]
-		}
-
-id2 -> Bequeathal struct
-		{
-		type: erc-721 cryptokitties
-		contract address
-		Amount,
-		address[]
-		dates[]
-		}
-*/
