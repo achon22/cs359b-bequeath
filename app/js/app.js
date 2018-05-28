@@ -43,7 +43,7 @@ function app() {
     }
 
     $("#viewFunds").click(function(){
-      viewMyFunds(userAccount);
+      view(userAccount);
     });
 
     $("#viewBequeathal").click(function(){
@@ -52,25 +52,52 @@ function app() {
 
     function viewBequeathal(id){
       contract.methods.viewBequeathal(id).call()
-        .then(function (a,b,c,d,e,f){
-          console.log(a);
-          console.log(b);
-          console.log(c);
-          console.log(d);
-          console.log(e);
-          console.log(f);
+        .then(function (bequeathal_array) {
+          console.log(bequeathal_array);
+          return bequeathal_array;
         })
         .catch(function(e){
+          console.log("error in viewBequeathal");
           console.log(e);
           console.log(e.toString());
           document.getElementById("current-amount").innerHTML = e.toString();
         })
     }
-
+    function view(address) {
+        values = viewMyFunds(address);
+        console.log("Total ETH: " + values);
+    }
     function viewMyFunds(address){
       contract.methods.viewMyIds(address).call()
         .then(function (ids){
-          console.log(ids);
+            var totalEth = 0;
+            var erc20_tokens = {}
+            var erc721_tokens = {} 
+          for (var i = 0; i < ids.length; i++) {
+            var id = ids[i];
+            console.log("id: " +  id);
+            contract.methods.viewBequeathal(id).call()
+                .then(function(beqVals) {
+                if (beqVals[0]=="1") {
+                    console.log("eth: " + web3.utils.fromWei(beqVals[1]))
+                    totalEth+=parseInt(web3.utils.fromWei(beqVals[1]));
+                } else if (beqVals[0]=="20") {
+                    if(beqVals[4] in erc20_tokens) {
+                        erc20_tokens[beqVals[4]]+=beqVals[1];
+                    } else {
+                        erc20_tokens[beqVals[4]]=beqVals[1];
+                    }
+                } else if (beqVals[0]=="721") {
+                    if(beqVals[4] in erc721_tokens) {
+                        erc721_tokens[beqVals[4]].push(beqVals[1]);
+                    } else {
+                        erc721_tokens[beqVals[4]]=[beqVals[1]];
+                    }
+                }
+                return [totalEth, erc20_tokens, erc721_tokens];
+              })
+          }
+
           document.getElementById("current-amount").innerHTML = ids;
         })
         .catch(function(e){

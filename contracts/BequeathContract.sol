@@ -19,8 +19,9 @@ contract BequeathContract {
    current_id = 0;
  }
 
- function viewBequeathal(uint id) public view returns (Bequeathal bequeathal){
-   return IdToBequeathal[id];
+ function viewBequeathal(uint id) public view returns (uint, uint, address[], uint[], address){
+   Bequeathal storage b = IdToBequeathal[id];
+   return (b.tokenType, b.amount, b.beneficiaries, b.dates, b.contractAddress);
  }
 
  function viewMyIds(address beneficiary) public view returns (uint[] ids){
@@ -57,7 +58,7 @@ contract BequeathContract {
        } else {
          return false;
        }
-    } else if (_type == 721){
+    } else if (_type == 721) {
        ERC721Token erc721TokenContract = ERC721Token(_contractAddress);
        for (uint i = 0; i < _tokenIds.length; i++) {
           uint256 id = _tokenIds[i];
