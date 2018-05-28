@@ -66,7 +66,7 @@ function app() {
     }
 
     $("#viewFunds").click(function(){
-      view(userAccount);
+      viewMyFunds(userAccount);
     });
 
     $("#viewBequeathal").click(function(){
@@ -88,7 +88,7 @@ function app() {
     }
     function view(address) {
         values = viewMyFunds(address);
-        console.log("Total ETH: " + values);
+
     }
     function viewMyFunds(address){
       contract.methods.viewMyIds(address).call()
@@ -118,7 +118,9 @@ function app() {
                     }
                 }
                 return [totalEth, erc20_tokens, erc721_tokens];
-              })
+              }).then(function(values) {
+                console.log("Total ETH: " + values[0]);
+                });
           }
 
           document.getElementById("current-amount").innerHTML = ids;
