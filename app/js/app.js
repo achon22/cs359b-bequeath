@@ -31,6 +31,15 @@ function app() {
     .catch(console.error);
 
     function bequeath(toAddress, amount, date){
+      var numERC20 = parseInt($('#numERC20').text());
+      if (!isNaN(amount)){
+        bequeathEth(toAddress, amount, date);
+      }
+      if (numERC20 != 0){
+        bequeathERC20(toAddress, amount, date, numERC20);
+      }
+    }
+    function bequeathEth(toAddress, amount, date){
       var _type = 1;
       var _contractAddress = toAddress;
       var _beneficiaries = [toAddress];
@@ -40,6 +49,20 @@ function app() {
         .catch(function (e) {
           console.log(e);
         });
+    }
+    function bequeathERC20(toAddress, amount, date, numERC20){
+      var _type = 20;
+      var _beneficiaries = [toAddress];
+      var _dates = [date];
+      var _tokenIds = [0];
+      var _contractAddress;
+      for (var i = 0; i < numERC20; i++){
+        _contractAddress = $('erc20' + i).text();
+        contract.methods.bequeath(_type, _contractAddress, _beneficiaries, _dates, _tokenIds).send({from: userAccount})
+          .catch(function (e) {
+            console.log(e);
+          });
+      }
     }
 
     $("#viewFunds").click(function(){
@@ -141,9 +164,10 @@ function app() {
       function addERC20addresses(num) {
         htmlString = "";
         for (var i = 0; i < num; i++){
-          htmlString += `<div class=row><input id="erc20"` + i +` type="text"  placeholder="Enter ERC-20 contract address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter ERC-20 contract address here'"></div>`
+          htmlString += `<div class=row><input id="erc20"` + i +` type="text"  placeholder="Enter ERC-20 contract address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter ERC-20 contract address here'">`
+          htmlString += `<input id="erc20amount"` + i + ` type="text" style="width: 200px" placeholder="Amount of ERC-20 token" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Amount of ERC-20 token'"></div>`
         }
-        htmlString += `<div id="numERC20" style="display: none;">` + num + `</div>`
+        $('#numERC20').html(num);
         $('#erc20addresses').html(htmlString);
       }
 
