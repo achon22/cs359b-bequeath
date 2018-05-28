@@ -87,15 +87,16 @@ function app() {
         })
     }
     function view(address) {
-        values = viewMyFunds(address);
-        console.log("Total ETH: " + values);
+        values = viewMyFunds(address).finally(function(value){
+            console.log("Total ETH: " + values);
+        });
     }
     function viewMyFunds(address){
       contract.methods.viewMyIds(address).call()
         .then(function (ids){
             var totalEth = 0;
             var erc20_tokens = {}
-            var erc721_tokens = {} 
+            var erc721_tokens = {}
           for (var i = 0; i < ids.length; i++) {
             var id = ids[i];
             console.log("id: " +  id);
@@ -136,7 +137,6 @@ function app() {
         var datetime = new Date($('#datetime').val()).getTime()/1000;
         console.log(toAddress);
         console.log(amount);
-        // console.log(date);
         console.log(datetime);
         // TODO: type checking and error handling
         bequeath(toAddress, amount, datetime);
