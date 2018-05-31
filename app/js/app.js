@@ -5,6 +5,7 @@ function app() {
 
   var contract;
   var userAccount;
+  var contractAddress;
 
   var contractDataPromise = $.getJSON('BequeathContract.json');
   var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
@@ -23,7 +24,7 @@ function app() {
          throw new Error("Contract not found in selected Ethereum network on MetaMask.");
       }
 
-      var contractAddress = contractData.networks[networkId].address;
+      contractAddress = contractData.networks[networkId].address;
       contract = new web3.eth.Contract(contractData.abi, contractAddress);
     })
     // Refresh balance instead of printing to the console
@@ -36,6 +37,8 @@ function app() {
         bequeathEth(toAddress, amount, date);
       }
       if (numERC20 != 0){
+        // contractAddress = $('#numERC20').text()
+        // amount = parseInt($('#erc20amount_').text())
         bequeathERC20(toAddress, amount, date, numERC20);
       }
     }
@@ -57,7 +60,12 @@ function app() {
       var _tokenIds = [0];
       var _contractAddress;
       for (var i = 0; i < numERC20; i++){
-        _contractAddress = $('erc20' + i).text();
+        var _contractAddress = document.getElementById('erc20_0').value;
+        console.log(_type)
+        console.log(_contractAddress)
+        console.log(_beneficiaries)
+        console.log(_dates)
+        console.log(_tokenIds)
         contract.methods.bequeath(_type, _contractAddress, _beneficiaries, _dates, _tokenIds).send({from: userAccount})
           .catch(function (e) {
             console.log(e);
@@ -152,21 +160,65 @@ function app() {
       });
 
       var select = '';
-      for (i=0;i<=25;i++){
+      for (i=0; i<=25; i++){
           select += '<option val=' + i + '>' + i + '</option>';
       }
       $('#erc20selector').html(select);
       $('#erc20selector').on('change', function(){
         addERC20addresses(this.value);
       })
+      $("#beneficiary-selector").html(select);
+      $('#beneficiary-selector').on('change', function(){
+        addBeneficiaries(this.value);
+      })
       function addERC20addresses(num) {
         htmlString = "";
         for (var i = 0; i < num; i++){
-          htmlString += `<div class=row><input id="erc20"` + i +` type="text"  placeholder="Enter ERC-20 contract address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter ERC-20 contract address here'">`
-          htmlString += `<input id="erc20amount"` + i + ` type="text" style="width: 200px" placeholder="Amount of ERC-20 token" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Amount of ERC-20 token'"></div>`
+          htmlString += `<div class=row><input id="erc20_` + i +`" type="text"  placeholder="Enter ERC-20 contract address here" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Enter ERC-20 contract address here'">`
+          htmlString += `<input id="erc20amount_` + i + `" type="text" style="width: 200px" placeholder="Amount of ERC-20 token" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Amount of ERC-20 token'"></div>`
+        }
+        htmlString += `<button id="approve"class="small blue button">Approve Transfer</button>`
+        $('#numBens').html(num);
+        $('#erc20addresses').html(htmlString);
+      }
+
+      function addBeneficiaries(num){
+        htmlString = "";
+        for (var i = 0; i < num; i++){
+          htmlString += `<div class=row><input id="address_`+ i + `" type="text" placeholder="Enter beneficiary ETH address here" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter beneficiary ETH address here'">`
+          htmlString += `<div class="form-group">
+                          <div class='input-group date' id='datetimepicker` + (10 + i) + `'>
+                              <input type='text' name='datetime' id='datetime`+i+`' class="form-control" />
+                                    <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar">
+                          </span>
+                                    </span>
+                                </div>
+                      </div></div>`
         }
         $('#numERC20').html(num);
-        $('#erc20addresses').html(htmlString);
+        $('#beneficiaries').html(htmlString);
+
+        for (var i = 10; i < 10 + num; i++){
+          $('#datetimepicker' + i).datetimepicker({
+  			viewMode: 'years'
+  		    });
+        }
+      }
+
+      function approve(num){
+        for (var i = 0; i < num; i++){
+          var _contractAddress = document.getElementById('erc20_' + i).value;
+          var _erc20amount = document.getElementById('erc20amount_' + i).value;
+          var abi_url = `http://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=`+_contractAddress +`&apikey=DABZHWXSF6ZGBVFH4VKD9B8QCW2ZHFZJQ8HI`; // + process.env.ETHERSCAN_API_KEY
+          $.get(abi_url, function(data){
+            abi = JSON.parse(data.result);
+            tokenContract = new web3.eth.Contract(abi, _contractAddress);
+            console.log(tokenContract);
+            console.log(contractAddress);
+            tokenContract.methods.approve(contractAddress, _erc20amount).call();
+          });
+        }
       }
 
       $(function () {
@@ -174,5 +226,6 @@ function app() {
   			viewMode: 'years'
   		    });
   		});
+
 }
 $(document).ready(app);
