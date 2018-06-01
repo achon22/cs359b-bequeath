@@ -33,13 +33,16 @@ function app() {
 
     function bequeath(toAddress, amount, date){
       var numERC20 = parseInt($('#numERC20').text());
+      console.log('numERC20: ' + numERC20);
       if (!isNaN(amount)){
+        console.log('bequeathing ' + amount + ' eth')
         bequeathEth(toAddress, amount, date);
       }
       if (numERC20 != 0){
         // contractAddress = $('#numERC20').text()
         // amount = parseInt($('#erc20amount_').text())
-        bequeathERC20(toAddress, amount, date, numERC20);
+        console.log('bequeathing ' + amount + ' erc-20')
+        bequeathERC20(toAddress, date, numERC20);
       }
     }
     function bequeathEth(toAddress, amount, date){
@@ -53,14 +56,19 @@ function app() {
           console.log(e);
         });
     }
-    function bequeathERC20(toAddress, amount, date, numERC20){
+    function bequeathERC20(toAddress, date, numERC20){
       var _type = 20;
       var _beneficiaries = [toAddress];
       var _dates = [date];
       var _tokenIds = [0];
-      var _contractAddress;
+      /**
+      1) get number of erc-20's
+      2) get amounts and addresses for each
+      3) call bequeathERC20 in a for loop.
+      */
       for (var i = 0; i < numERC20; i++){
-        var _contractAddress = document.getElementById('erc20_0').value;
+        var _contractAddress = document.getElementById('erc20_' + i).value;
+        // var amount = document.getElementById('erc20amount_' + i).value;
         console.log(_type)
         console.log(_contractAddress)
         console.log(_beneficiaries)
@@ -178,8 +186,11 @@ function app() {
           htmlString += `<input id="erc20amount_` + i + `" type="text" style="width: 200px" placeholder="Amount of ERC-20 token" onfocus="this.placeholder = ''"onblur="this.placeholder = 'Amount of ERC-20 token'"></div>`
         }
         htmlString += `<button id="approve"class="small blue button">Approve Transfer</button>`
-        $('#numBens').html(num);
+        $('#numERC20').html(num);
         $('#erc20addresses').html(htmlString);
+        $('#approve').click(function(){
+          approve(num);
+        })
       }
 
       function addBeneficiaries(num){
@@ -196,7 +207,7 @@ function app() {
                                 </div>
                       </div></div>`
         }
-        $('#numERC20').html(num);
+        $('#numBens').html(num);
         $('#beneficiaries').html(htmlString);
 
         for (var i = 10; i < 10 + num; i++){
@@ -216,7 +227,7 @@ function app() {
             tokenContract = new web3.eth.Contract(abi, _contractAddress);
             console.log(tokenContract);
             console.log(contractAddress);
-            tokenContract.methods.approve(contractAddress, _erc20amount).call();
+            tokenContract.methods.approve(contractAddress, web3.utils.toWei(_erc20amount.toString(), 'ether')).send({from: userAccount});
           });
         }
       }
