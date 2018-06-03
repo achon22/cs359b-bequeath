@@ -43,12 +43,25 @@ function app() {
         bequeathERC20(toAddress, date, numERC20);
       }
     }
+
+    function getBeneficiaries(){
+      var numBens = parseInt($('#numBens').text());
+      var bens = [];
+      for (var i = 0; i <= numBens; i++){
+        bens.push($('#address_' + i).val());
+      }
+      console.log(bens);
+      return bens;
+    }
+
+
     function bequeathEth(toAddress, amount, date){
       var _type = 1;
       var _contractAddress = toAddress;
-      var _beneficiaries = [toAddress];
+      var _beneficiaries = getBeneficiaries();
       var _dates = [date];
       var _tokenIds = [1];
+      console.log(_beneficiaries);
       contract.methods.bequeath(_type, _contractAddress, _beneficiaries, _dates, _tokenIds).send({from: userAccount, value: web3.utils.toWei(amount.toString(), 'ether')})
         .catch(function (e) {
           console.log(e);
@@ -136,7 +149,7 @@ function app() {
         var toAddress = $("#address").val();
         var amount = parseFloat($("#amount").val());
         // var date = new Date($("#datepicker").val()).getTime()/1000;
-        var datetime = new Date($('#datetime').val()).getTime()/1000;
+        var datetime = new Date($('#datetime0').val()).getTime()/1000;
         console.log(toAddress);
         console.log(amount);
         console.log(datetime);
@@ -183,7 +196,7 @@ function app() {
 
       function addBeneficiaries(num){
         htmlString = "";
-        for (var i = 0; i < num; i++){
+        for (var i = 1; i <= num; i++){
           htmlString += `<div class=row><input id="address_`+ i + `" type="text" placeholder="Enter beneficiary ETH address here" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter beneficiary ETH address here'">`
           htmlString += `<div class="form-group">
                           <div class='input-group date' id='datetimepicker` + (10 + i) + `'>
