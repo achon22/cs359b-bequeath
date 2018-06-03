@@ -104,6 +104,7 @@ contract BequeathContract {
            }
            delete BeneficiaryToIds[msg.sender][i];
            delete IdToBequeathal[id];
+           break;
          }
        }
      }

@@ -1,4 +1,4 @@
-pragma experimental ABIEncoderV2;
+pragma solidity ^0.4.21;
 
 // ----------------------------------------------------------------------------------------------
 // Sample fixed supply token contract
@@ -39,7 +39,7 @@ contract FixedSupplyToken is ERC20Interface {
     string public constant symbol = "FIXED";
     string public constant name = "Example Fixed Supply Token";
     uint8 public constant decimals = 18;
-    uint256 _totalSupply = 1000000;
+    uint256 _totalSupply = 1000000000000000000000;
 
     // Owner of this contract
     address public owner;
@@ -60,7 +60,7 @@ contract FixedSupplyToken is ERC20Interface {
 
     // Constructor
     constructor () {
-        address owner = address(0x627306090abaB3A6e1400e9345bC60c78a8BEf57);
+        address owner = msg.sender;
         balances[owner] = _totalSupply;
     }
 
