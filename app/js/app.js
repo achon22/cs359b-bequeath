@@ -39,9 +39,7 @@ function app() {
         bequeathEth(toAddress, amount, date);
       }
       if (numERC20 != 0){
-        // contractAddress = $('#numERC20').text()
-        // amount = parseInt($('#erc20amount_').text())
-        console.log('bequeathing ' + amount + ' erc-20')
+        console.log('bequeathing ' + numERC20 + ' erc-20')
         bequeathERC20(toAddress, date, numERC20);
       }
     }
@@ -61,19 +59,9 @@ function app() {
       var _beneficiaries = [toAddress];
       var _dates = [date];
       var _tokenIds = [0];
-      /**
-      1) get number of erc-20's
-      2) get amounts and addresses for each
-      3) call bequeathERC20 in a for loop.
-      */
       for (var i = 0; i < numERC20; i++){
         var _contractAddress = document.getElementById('erc20_' + i).value;
-        // var amount = document.getElementById('erc20amount_' + i).value;
-        console.log(_type)
-        console.log(_contractAddress)
-        console.log(_beneficiaries)
-        console.log(_dates)
-        console.log(_tokenIds)
+        console.log('bequeathing erc20 ' + _contractAddress);
         contract.methods.bequeath(_type, _contractAddress, _beneficiaries, _dates, _tokenIds).send({from: userAccount})
           .catch(function (e) {
             console.log(e);
@@ -218,17 +206,21 @@ function app() {
       }
 
       function approve(num){
+        console.log('approving ' + num + ' tokens')
         for (var i = 0; i < num; i++){
-          var _contractAddress = document.getElementById('erc20_' + i).value;
+          var _erc20contract = document.getElementById('erc20_' + i).value;
           var _erc20amount = document.getElementById('erc20amount_' + i).value;
-          var abi_url = `http://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=`+_contractAddress +`&apikey=DABZHWXSF6ZGBVFH4VKD9B8QCW2ZHFZJQ8HI`; // + process.env.ETHERSCAN_API_KEY
-          $.get(abi_url, function(data){
-            abi = JSON.parse(data.result);
-            tokenContract = new web3.eth.Contract(abi, _contractAddress);
-            console.log(tokenContract);
-            console.log(contractAddress);
-            tokenContract.methods.approve(contractAddress, web3.utils.toWei(_erc20amount.toString(), 'ether')).send({from: userAccount});
-          });
+          var abi_url = `http://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=`+_erc20contract +`&apikey=DABZHWXSF6ZGBVFH4VKD9B8QCW2ZHFZJQ8HI`; // + process.env.ETHERSCAN_API_KEY
+          $.get(abi_url, (function (_erc20contract, _erc20amount){
+            return function (data){
+              $.get(abi_url, function(data){
+                abi = JSON.parse(data.result);
+                tokenContract = new web3.eth.Contract(abi, _erc20contract);
+                console.log('approving ' + _erc20amount + ' of ' + _erc20contract);
+                tokenContract.methods.approve(contractAddress, web3.utils.toWei(_erc20amount.toString(), 'ether')).send({from: userAccount});
+              });
+            }
+          })(_erc20contract, _erc20amount));
         }
       }
 
