@@ -26,6 +26,7 @@ function app() {
 
       contractAddress = contractData.networks[networkId].address;
       contract = new web3.eth.Contract(contractData.abi, contractAddress);
+      console.log('loaded contract ' + contractAddress);
     })
     // Refresh balance instead of printing to the console
     // .then(refreshBalance)
@@ -61,7 +62,6 @@ function app() {
       var _beneficiaries = getBeneficiaries();
       var _dates = [date];
       var _tokenIds = [1];
-      console.log(_beneficiaries);
       contract.methods.bequeath(_type, _contractAddress, _beneficiaries, _dates, _tokenIds).send({from: userAccount, value: web3.utils.toWei(amount.toString(), 'ether')})
         .catch(function (e) {
           console.log(e);

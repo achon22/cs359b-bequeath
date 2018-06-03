@@ -39,7 +39,6 @@ contract BequeathContract {
 
  function bequeath(uint _type, address _contractAddress, address[] _beneficiaries, uint[] _dates, uint256[] _tokenIds) public payable returns (bool success){
     current_id += 1;
-    BeneficiaryToIds[msg.sender].push(current_id);
     Bequeathal memory newBequeathal;
     if (_type == 1) {
       newBequeathal = Bequeathal(_type, msg.value, _beneficiaries, _dates, 0x0);
