@@ -7,6 +7,10 @@ button { margin: 2em 0; padding: 1em 4em; Display:block; }
 #loader { width: 100px; display: none; }
 body{
     /* background:url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/wild_oliva.png); */
+    font-family: Camphor, Open Sans, Segoe UI, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;*
 }
 .centered {
   margin:50px auto;
@@ -63,8 +67,10 @@ body{
 }
 
 .button:hover{
-  background-color: #eee;
-  color: #555;
+  /*background-color: #eee;
+  color: #555;*/
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
 }
 
 .button:active{

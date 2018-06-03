@@ -100,7 +100,6 @@ function app() {
           console.log("error in viewBequeathal");
           console.log(e);
           console.log(e.toString());
-          document.getElementById("current-amount").innerHTML = e.toString();
         })
     }
 
@@ -134,14 +133,24 @@ function app() {
                 return [totalEth, erc20_tokens, erc721_tokens];
               }).then(function(values) {
                 console.log("Total ETH: " + values[0]);
+                document.getElementById("eth_amount").innerHTML = "Total Eth: "+values[0];
+                var erc20_toks = "ERC20 Tokens: \n";
+                for (var key in erc20_tokens) {
+                   erc20_toks+=key+": "+erc20_tokens[key]+"\n"; 
+                }
+                document.getElementById("erc20_amount").innerHTML = erc20_toks; 
+                var erc_toks = "ERC721 Tokens: \n";
+                for (var key in erc721_tokens) {
+                   erc_toks+=key+": "+erc721_tokens[key]+"\n"; 
+                }
+                document.getElementById("erc721_amount").innerHTML = erc_toks; 
                 });
           }
 
-          document.getElementById("current-amount").innerHTML = ids;
+
         })
         .catch(function(e){
           console.log(e);
-          document.getElementById("current-amount").innerHTML = e;
         })
     }
 
