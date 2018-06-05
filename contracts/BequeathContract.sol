@@ -39,15 +39,15 @@ contract BequeathContract {
 
  function bequeath(uint _type, address _contractAddress, address[] _beneficiaries, uint[] _dates, uint256[] _tokenIds) public payable returns (bool success){
     current_id += 1;
-    for (uint j = 0; j < _beneficiaries.length; j++) {
-      BeneficiaryToIds[_beneficiaries[j]].push(current_id);
+    if (_type == 1 || _type == 20 || _type == 721){
+      for (uint j = 0; j < _beneficiaries.length; j++) {
+        BeneficiaryToIds[_beneficiaries[j]].push(current_id);
+      }
     }
-    //BeneficiaryToIds[msg.sender].push(current_id);
     Bequeathal memory newBequeathal;
     if (_type == 1) {
       newBequeathal = Bequeathal(_type, msg.value, _beneficiaries, _dates, 0x0);
       IdToBequeathal[current_id] = newBequeathal;
-      fillBeneficiaryToIds(_beneficiaries, current_id);
       balance += msg.value;
     } else if (_type == 20) {
       //assume approved
@@ -57,7 +57,6 @@ contract BequeathContract {
        if (success) {
         newBequeathal = Bequeathal(_type, amount, _beneficiaries, _dates, _contractAddress);
          IdToBequeathal[current_id]=newBequeathal;
-         fillBeneficiaryToIds(_beneficiaries, current_id);
        } else {
          return false;
        }
@@ -69,18 +68,11 @@ contract BequeathContract {
             erc721TokenContract.safeTransferFrom(msg.sender, address(this), id, "");
             newBequeathal = Bequeathal(_type, id, _beneficiaries, _dates, _contractAddress);
             IdToBequeathal[current_id+i]=newBequeathal;
-            fillBeneficiaryToIds(_beneficiaries, current_id);
           }
           current_id += _tokenIds.length;
        }
     }
     return true;
- }
-
- function fillBeneficiaryToIds(address[] _beneficiaries, uint256 id) private {
-   for (uint i = 0; i < _beneficiaries.length; i++) {
-     BeneficiaryToIds[_beneficiaries[i]].push(id);
-   }
  }
 
  function claim() public payable returns (bool success){

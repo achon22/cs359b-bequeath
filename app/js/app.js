@@ -26,7 +26,7 @@ function app() {
 
       contractAddress = contractData.networks[networkId].address;
       contract = new web3.eth.Contract(contractData.abi, contractAddress);
-      console.log('loaded contract ' + contractAddress);
+      console.log('loaded contract ' + contractAddress + ' \nuser account: ' + userAccount);
     })
     // Refresh balance instead of printing to the console
     // .then(refreshBalance)
