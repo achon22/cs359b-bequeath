@@ -1,4 +1,4 @@
-body { background-color:#F0F0F0; padding: 2em; font-family: 'Raleway','Source Sans Pro', 'Arial'; }
+body { background-color:#F0F0F0; /*padding: 2em;*/ font-family: 'Raleway','Source Sans Pro', 'Arial'; }
 .container { width: 50%; margin: 0 auto; }
 label { Display:block; Margin-bottom:10px; }
 input { Padding:10px; width: 50%; margin-bottom: 1em; }
@@ -252,4 +252,55 @@ body{
   -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
   -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
   box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #F0F0F0;
+    overflow: hidden;
+    padding:3em;
+    width: 75%;
+    margin: auto;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px ;
+}
+
+.topnav b {
+    color:black;
+    text-align: center;
+    text-decoration: none;
+    font-size: 17px;
+    /*padding: 14px 16px;*/
+    vertical-align: middle;
+}
+
+.topnav a {
+  color: black;
+}
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #269CE0;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #269CE9;
+    /*color: black;*/
+}
+
+.topnav-right {
+  float: right;
+}
+
+.topnav-left {
+  float: left;
 }

@@ -15,22 +15,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!-- <link rel="stylesheet" href="./app/vendor/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="./app/vendor/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="js/app.js"></script>
-    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon" />
 
+    <link rel="shortcut icon" type="image/png" href="img/piggy-bank.png">
     <link rel="stylesheet" type="text/css" href="css/app.css">
+
 </head>
 
 <body>
+    <div class="topnav">
+      <img src="img/piggy-bank.png"  style="width:40px">
+      <b>Bequeath</b>
+<!--     <a class="active" href="#home">Home</a>
+    <a href="#news">News</a> -->
+    <div class="topnav-right">
+      <a class="active" href="#bequeath">Bequeath</a>
+      <a href="#viewFunds">View Funds</a>
+    </div>
+  </div>
     <div class="container">
-        <h1>Bequeath</h1>
-        <h3>Ethereum Decentralized Trust Fund</h3>
+        <h3>Bequeath funds</h3>
     </div>
 
-    <div class="container">
+
+
+<!--     <div class="container">
       <div class=row>
         <button id="viewFunds" class="small blue button">View My Funds</button>
       </div>
@@ -39,9 +51,9 @@
       <div class=row>
         <button id="viewBequeathal" class="small blue button">View Bequeathal</button>
       </div>
-    </div>
+    </div> -->
 
-    <div class="container">
+<!--     <div class="container">
       <div class=row>
         <b id="eth_amount">Total Eth: </b>
       </div>
@@ -51,7 +63,7 @@
       <div class=row>
         <b id="erc721_tokens">ERC721 Tokens: </b>
       </div>
-    </div>
+    </div> -->
 
     <div class="container">
         <!-- <img src="./img/bank_image.png"> -->
@@ -76,14 +88,14 @@
         </div>
 
         <div class=row>
-            <label for="datetime" class="col-lg-3 control-label">Enter date to release funds:</label>
+            <label for="datetime" class="col-md-3 control-label">Enter date to release funds:</label>
             <div class="form-group">
-                <div class='input-group date' id='datetimepicker9'>
+                <div class='input-group date' id='datetimepicker9' width="100">
                     <input type='text' name='datetime' id='datetime0' class="form-control" />
                     <span class="input-group-addon">
 			    <span class="glyphicon glyphicon-calendar">
 			    </span>
-                    </span>
+          </span>
                 </div>
             </div>
             <div>
@@ -106,10 +118,10 @@
             <button id="createTrustButton" class="small blue button">Create Trust Fund</button>
 
     </div>
-    <div class="container">
+<!--     <div class="container">
         <h3>Claim my Trust</h3>
         <button id="claimTrust" class="small blue button">Claim my Funds</button>
-    </div>
+    </div> -->
 </body>
 
 </html>
