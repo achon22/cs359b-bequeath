@@ -1,11 +1,12 @@
+
 function app() {
   if (typeof web3 == 'undefined') throw 'No web3 detected. Is Metamask/Mist being used?';
   web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
   console.log("Using web3 version: " + Web3.version);
 
   var contract;
-  var userAccount;
   var contractAddress;
+  var userAccount;
 
   var contractDataPromise = $.getJSON('BequeathContract.json');
   var networkIdPromise = web3.eth.net.getId(); // resolves on the current network id
@@ -17,7 +18,7 @@ function app() {
       var networkId = results[1];
       var accounts = results[2];
       userAccount = accounts[0];
-
+      Cookies.set('userAccount', userAccount);
       // (todo) Make sure the contract is deployed on the network to which our provider is connected
       // Make sure the contract is deployed on the connected network
       if (!(networkId in contractData.networks)) {
@@ -32,16 +33,16 @@ function app() {
     // .then(refreshBalance)
     .catch(console.error);
 
-    function bequeath(toAddress, amount, date){
+    function bequeath(toAddress, amount){
       var numERC20 = parseInt($('#numERC20').text());
       console.log('numERC20: ' + numERC20);
       if (!isNaN(amount)){
         console.log('bequeathing ' + amount + ' eth')
-        bequeathEth(toAddress, amount, date);
+        bequeathEth(toAddress, amount);
       }
       if (numERC20 != 0){
         console.log('bequeathing ' + numERC20 + ' erc-20')
-        bequeathERC20(toAddress, date, numERC20);
+        bequeathERC20(toAddress, numERC20);
       }
     }
 
@@ -55,22 +56,33 @@ function app() {
       return bens;
     }
 
+    function getDates(){
+      var numDates = parseInt($('#numBens').text());
+      var dates = [];
+      for (var i = 0; i <= numDates; i++){
+        var datetime = new Date($('#datetime' + i).val()).getTime()/1000;
+        dates.push(datetime);
+      }
+      console.log(dates);
+      return dates;
+    }
 
-    function bequeathEth(toAddress, amount, date){
+
+    function bequeathEth(toAddress, amount){
       var _type = 1;
       var _contractAddress = toAddress;
       var _beneficiaries = getBeneficiaries();
-      var _dates = [date];
+      var _dates = getDates();
       var _tokenIds = [1];
       contract.methods.bequeath(_type, _contractAddress, _beneficiaries, _dates, _tokenIds).send({from: userAccount, value: web3.utils.toWei(amount.toString(), 'ether')})
         .catch(function (e) {
           console.log(e);
         });
     }
-    function bequeathERC20(toAddress, date, numERC20){
+    function bequeathERC20(toAddress, numERC20){
       var _type = 20;
-      var _beneficiaries = [toAddress];
-      var _dates = [date];
+      var _beneficiaries = getBeneficiaries();
+      var _dates = getDates();
       var _tokenIds = [0];
       for (var i = 0; i < numERC20; i++){
         var _contractAddress = document.getElementById('erc20_' + i).value;
@@ -111,39 +123,46 @@ function app() {
             var erc721_tokens = {}
           for (var i = 0; i < ids.length; i++) {
             var id = ids[i];
-            console.log("id: " +  id);
+            console.log("Bequeathal id: " +  id);
             contract.methods.viewBequeathal(id).call()
                 .then(function(beqVals) {
-                if (beqVals[0]=="1") {
-                    console.log("eth: " + web3.utils.fromWei(beqVals[1]))
-                    totalEth+=parseInt(web3.utils.fromWei(beqVals[1]));
-                } else if (beqVals[0]=="20") {
-                    if(beqVals[4] in erc20_tokens) {
-                        erc20_tokens[beqVals[4]]+=beqVals[1];
+                var tokenType = beqVals[0], amount = beqVals[1], beneficiaries = beqVals[2],
+                dates = beqVals[3], contractAddress = beqVals[4];
+                if (tokenType == "1") {
+                    console.log("eth: " + web3.utils.fromWei(amount))
+                    totalEth += parseFloat(web3.utils.fromWei(amount));
+                } else if (tokenType == "20") {
+                    if(contractAddress in erc20_tokens) {
+                        erc20_tokens[contractAddress] += amount;
                     } else {
-                        erc20_tokens[beqVals[4]]=beqVals[1];
-                    }
-                } else if (beqVals[0]=="721") {
-                    if(beqVals[4] in erc721_tokens) {
-                        erc721_tokens[beqVals[4]].push(beqVals[1]);
-                    } else {
-                        erc721_tokens[beqVals[4]]=[beqVals[1]];
+                        erc20_tokens[contractAddress] = amount;
                     }
                 }
+                // else if (tokenType=="721") {
+                //     if(beqVals[4] in erc721_tokens) {
+                //         erc721_tokens[contractAddress].push(amount);
+                //     } else {
+                //         erc721_tokens[contractAddress]=[amount];
+                //     }
+                // }
                 return [totalEth, erc20_tokens, erc721_tokens];
               }).then(function(values) {
-                console.log("Total ETH: " + values[0]);
+                var totalEth = values[0], erc20_tokens = values[1], erc721_tokens = values[2];
+                console.log("Total ETH: " + totalEth);
                 document.getElementById("eth_amount").innerHTML = "Total Eth: "+values[0];
                 var erc20_toks = "ERC20 Tokens: \n";
+                console.log(erc20_tokens);
                 for (var key in erc20_tokens) {
-                   erc20_toks+=key+": "+erc20_tokens[key]+"\n";
+                  console.log('key: ' + key + ' -> ' + erc20_tokens[key]);
+                   erc20_toks+=key+": "+web3.utils.fromWei(erc20_tokens[key])+"\n";
                 }
                 document.getElementById("erc20_amount").innerHTML = erc20_toks;
-                var erc_toks = "ERC721 Tokens: \n";
-                for (var key in erc721_tokens) {
-                   erc_toks+=key+": "+erc721_tokens[key]+"\n";
-                }
-                document.getElementById("erc721_amount").innerHTML = erc_toks;
+                console.log(erc20_tokens)
+                // var erc_toks = "ERC721 Tokens: \n";
+                // for (var key in erc721_tokens) {
+                //    erc_toks+=key+": "+erc721_tokens[key]+"\n";
+                // }
+                // document.getElementById("erc721_amount").innerHTML = erc_toks;
                 });
           }
 
@@ -158,12 +177,11 @@ function app() {
         var toAddress = $("#address_0").val();
         var amount = parseFloat($("#amount").val());
         // var date = new Date($("#datepicker").val()).getTime()/1000;
-        var datetime = new Date($('#datetime0').val()).getTime()/1000;
+        // var datetime = new Date($('#datetime0').val()).getTime()/1000;
         console.log(toAddress);
         console.log(amount);
-        console.log(datetime);
         // TODO: type checking and error handling
-        bequeath(toAddress, amount, datetime);
+        bequeath(toAddress, amount);
       });
 
       function claim(){
