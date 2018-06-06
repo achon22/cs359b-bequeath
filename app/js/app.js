@@ -74,7 +74,7 @@ function app() {
       var _tokenIds = [0];
       for (var i = 0; i < numERC20; i++){
         var _contractAddress = document.getElementById('erc20_' + i).value;
-        console.log('bequeathing erc20 ' + _contractAddress);
+        console.log('bequeathing erc20 ' + _contractAddress + ' to beneficiary ' + _beneficiaries[0]);
         contract.methods.bequeath(_type, _contractAddress, _beneficiaries, _dates, _tokenIds).send({from: userAccount})
           .catch(function (e) {
             console.log(e);
@@ -136,14 +136,14 @@ function app() {
                 document.getElementById("eth_amount").innerHTML = "Total Eth: "+values[0];
                 var erc20_toks = "ERC20 Tokens: \n";
                 for (var key in erc20_tokens) {
-                   erc20_toks+=key+": "+erc20_tokens[key]+"\n"; 
+                   erc20_toks+=key+": "+erc20_tokens[key]+"\n";
                 }
-                document.getElementById("erc20_amount").innerHTML = erc20_toks; 
+                document.getElementById("erc20_amount").innerHTML = erc20_toks;
                 var erc_toks = "ERC721 Tokens: \n";
                 for (var key in erc721_tokens) {
-                   erc_toks+=key+": "+erc721_tokens[key]+"\n"; 
+                   erc_toks+=key+": "+erc721_tokens[key]+"\n";
                 }
-                document.getElementById("erc721_amount").innerHTML = erc_toks; 
+                document.getElementById("erc721_amount").innerHTML = erc_toks;
                 });
           }
 
@@ -155,7 +155,7 @@ function app() {
     }
 
       $("#createTrustButton").click(function() {
-        var toAddress = $("#address").val();
+        var toAddress = $("#address_0").val();
         var amount = parseFloat($("#amount").val());
         // var date = new Date($("#datepicker").val()).getTime()/1000;
         var datetime = new Date($('#datetime0').val()).getTime()/1000;
