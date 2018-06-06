@@ -36,7 +36,7 @@ contract ERC20Interface {
 }
 
 contract FixedSupplyToken is ERC20Interface {
-    string public constant symbol = "FIXED";
+    string public constant symbol = "DAI";
     string public constant name = "Example Fixed Supply Token";
     uint8 public constant decimals = 18;
     uint256 _totalSupply = 1000000000000000000000;
