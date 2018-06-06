@@ -205,7 +205,7 @@ function app() {
         claim();
     });
 
-    var select;
+    var select = "";
     for (i = 0; i <= 25; i++) {
         select += '<option val=' + i + '>' + i + '</option>';
     }
