@@ -167,7 +167,7 @@ function app() {
                             var date = new Date(1000 * dates[i]);
                             var order = '# ' + (i + 1) + ' of ' + beneficiaries.length
                             var success = erc20_table.row.add([date.toLocaleString(), contractAddress, web3.utils.fromWei(amount), order]).draw(true);
-                            get_symbol(contractAddress)
+                            // get_symbol(contractAddress)
                         }
                     }
                   }
@@ -290,7 +290,6 @@ function app() {
                 });
             }
         })(_erc20contract));
-        console.log(symbol);
         return symbol
     }
 
