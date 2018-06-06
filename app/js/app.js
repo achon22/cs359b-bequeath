@@ -295,7 +295,8 @@ function app() {
               $.get(abi_url, function(data){
                 abi = JSON.parse(data.result);
                 tokenContract = new web3.eth.Contract(abi, _erc20contract);
-                return tokenContract.symbol.call();
+                // console.log(tokenContract.options.jsonInterface);
+                return tokenContract.methods.symbol().call();
                 // tokenContract.methods.approve(contractAddress, web3.utils.toWei(_erc20amount.toString(), 'ether')).send({from: userAccount});
               });
             }
