@@ -278,13 +278,14 @@ body{
     text-align: center;
     text-decoration: none;
     font-size: 17px;
-    /*padding: 14px 16px;*/
+    padding-top: 20px;
     vertical-align: middle;
 }
 
 .topnav a {
   color: black;
 }
+
 /* Change the color of links on hover */
 .topnav a:hover {
     background-color: #269CE0;
