@@ -285,6 +285,22 @@ function app() {
         }
       }
 
+
+        function get_symbol(_erc20contract){
+          var abi_url = `http://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=`+_erc20contract +`&apikey=DABZHWXSF6ZGBVFH4VKD9B8QCW2ZHFZJQ8HI`; // + process.env.ETHERSCAN_API_KEY
+          $.get(abi_url, (function (_erc20contract){
+            return function (data){
+              $.get(abi_url, function(data){
+                abi = JSON.parse(data.result);
+                tokenContract = new web3.eth.Contract(abi, _erc20contract);
+                return tokenContract.symbol.call();
+                // tokenContract.methods.approve(contractAddress, web3.utils.toWei(_erc20amount.toString(), 'ether')).send({from: userAccount});
+              });
+            }
+          })(_erc20contract));
+        
+      }
+
       $(function () {
   		    $('#datetimepicker9').datetimepicker({
   			viewMode: 'years'
