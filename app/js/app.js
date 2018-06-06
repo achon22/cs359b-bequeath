@@ -118,7 +118,17 @@ function app() {
     function viewMyFunds(address){
       contract.methods.viewMyIds(address).call()
         .then(function (ids){
-            var totalEth = 0;
+            var totalEth = {}; // date -> amount
+            /**
+              Bequeathal
+              Your claim Date: 01/4/19
+              Amount: 4 Eth
+              There are <num> claimers before you. You will only be able to claim
+              your eth if the previous beneficiaries do not claim the eth.
+              other claimers: <date> <address>
+            }
+            */
+
             var erc20_tokens = {}
             var erc721_tokens = {}
           for (var i = 0; i < ids.length; i++) {
@@ -126,11 +136,22 @@ function app() {
             console.log("Bequeathal id: " +  id);
             contract.methods.viewBequeathal(id).call()
                 .then(function(beqVals) {
-                var tokenType = beqVals[0], amount = beqVals[1], beneficiaries = beqVals[2],
-                dates = beqVals[3], contractAddress = beqVals[4];
+                var tokenType = beqVals[0];
+                var amount = beqVals[1];
+                var beneficiaries = beqVals[2];
+                var dates = beqVals[3];
+                var contractAddress = beqVals[4];
                 if (tokenType == "1") {
+                  for (var i = 0; i < beneficiaries.length; i++){
+                    var addr = beneficiaries[i];
+                    var date = dates[i];
+                    if (addr == address){
+                      totalEth[(id, date)] = (amount, i, dates);
+                    }
+                  }
+
                     console.log("eth: " + web3.utils.fromWei(amount))
-                    totalEth += parseFloat(web3.utils.fromWei(amount));
+                    // totalEth += parseFloat(web3.utils.fromWei(amount));
                 } else if (tokenType == "20") {
                     if(contractAddress in erc20_tokens) {
                         erc20_tokens[contractAddress] += amount;
