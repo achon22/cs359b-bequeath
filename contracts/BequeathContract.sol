@@ -104,36 +104,6 @@ contract BequeathContract {
    return false;
  }
 
- function claim() public payable returns (bool success){
-     uint[] storage ids = BeneficiaryToIds[msg.sender];
-     for (uint i = ids.length - 1; i >= 0; i--){
-       uint id = ids[i];
-       if (id == 0) continue;
-       Bequeathal storage asset = IdToBequeathal[id];
-       for (uint b = asset.beneficiaries.length - 1; b >= 0; b--){
-         address beneficiary = asset.beneficiaries[b];
-         uint date = asset.dates[b];
-         if (beneficiary == msg.sender && date <= block.timestamp){
-           if (asset.tokenType == 1){
-             balance -= asset.amount;
-             msg.sender.transfer(asset.amount);
-           }else if (asset.tokenType == 20){
-             ERC20Token erc20 = ERC20Token(asset.contractAddress);
-             erc20.transfer(msg.sender, asset.amount);
-           }else if (asset.tokenType == 721){
-             ERC721Token erc721 = ERC721Token(asset.contractAddress);
-             erc721.safeTransferFrom(address(this), msg.sender, asset.amount, "");
-           }
-           delete BeneficiaryToIds[msg.sender][i];
-           delete IdToBequeathal[id];
-           break;
-         }
-       }
-     }
-     return true;
- }
-}
-
 
 contract ERC20Token {
     function totalSupply() public constant returns (uint);
