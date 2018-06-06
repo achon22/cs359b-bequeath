@@ -118,7 +118,7 @@ function app() {
     function viewMyFunds(address){
       contract.methods.viewMyIds(address).call()
         .then(function (ids){
-            var totalEth = {}; // date -> amount
+            var totalEthData = []; // date -> amount
             /**
               Bequeathal
               Your claim Date: 01/4/19
@@ -129,8 +129,8 @@ function app() {
             }
             */
 
-            var erc20_tokens = {}
-            var erc721_tokens = {}
+            var totalErc20_tokens = [];
+            var erc721_tokens = [];
           for (var i = 0; i < ids.length; i++) {
             var id = ids[i];
             console.log("Bequeathal id: " +  id);
@@ -144,20 +144,22 @@ function app() {
                 if (tokenType == "1") {
                   for (var i = 0; i < beneficiaries.length; i++){
                     var addr = beneficiaries[i];
-                    var date = dates[i];
-                    if (addr == address){
-                      totalEth[(id, date)] = (amount, i, dates);
+                    if (addr == address) {
+                      var date = new Date(1000*dates[i]);
+                      var order = 'Number ' + i + ' out of ' + beneficiaries.length
+                      totalEthData.push([date.toLocaleString(), web3.utils.fromWei(amount), order])
+                    }
+                  }
+                } else if (tokenType == "20") {
+                  for (var i = 0; i < beneficiaries.length; i++){
+                    var addr = beneficiaries[i];
+                    if (addr == address) {
+                      var date = new Date(1000*dates[i]);
+                      var order = 'Number ' + i + ' out of ' + beneficiaries.length
+                      totalErc20_tokens.push([date.toLocaleString(), contractAddress, web3.utils.fromWei(amount), order])
                     }
                   }
 
-                    console.log("eth: " + web3.utils.fromWei(amount))
-                    // totalEth += parseFloat(web3.utils.fromWei(amount));
-                } else if (tokenType == "20") {
-                    if(contractAddress in erc20_tokens) {
-                        erc20_tokens[contractAddress] += amount;
-                    } else {
-                        erc20_tokens[contractAddress] = amount;
-                    }
                 }
                 // else if (tokenType=="721") {
                 //     if(beqVals[4] in erc721_tokens) {
@@ -166,21 +168,21 @@ function app() {
                 //         erc721_tokens[contractAddress]=[amount];
                 //     }
                 // }
-                return [totalEth, erc20_tokens, erc721_tokens];
+                return [totalEthData, erc20_tokens, erc721_tokens];
               }).then(function(values) {
-                var totalEth = values[0], erc20_tokens = values[1], erc721_tokens = values[2];
-                console.log("Total ETH: " + totalEth);
-                document.getElementById("eth_amount").innerHTML = "Total Eth: "+values[0];
-                var erc20_toks = "ERC20 Tokens: \n";
-                console.log(erc20_tokens);
-                for (var key in erc20_tokens) {
-                  var symbol = get_symbol(key);
-                  console.log('symbol is ' + symbol)
-                  console.log('Token: ' + symbol + ' -> ' + erc20_tokens[key]);
-                   erc20_toks+=key+": "+web3.utils.fromWei(erc20_tokens[key])+"\n";
-                }
-                document.getElementById("erc20_amount").innerHTML = erc20_toks;
-                console.log(erc20_tokens)
+                // var totalEth = values[0], erc20_tokens = values[1], erc721_tokens = values[2];
+                // console.log("Total ETH: " + totalEth);
+                // document.getElementById("eth_amount").innerHTML = "Total Eth: "+values[0];
+                // var erc20_toks = "ERC20 Tokens: \n";
+                // console.log(erc20_tokens);
+                // for (var key in erc20_tokens) {
+                //   var symbol = get_symbol(key);
+                //   console.log('symbol is ' + symbpol)
+                //   console.log('Token: ' + symbol + ' -> ' + erc20_tokens[key]);
+                //    erc20_toks+=key+": "+web3.utils.fromWei(erc20_tokens[key])+"\n";
+                // }
+                // document.getElementById("erc20_amount").innerHTML = erc20_toks;
+                // console.log(erc20_tokens)
                 // var erc_toks = "ERC721 Tokens: \n";
                 // for (var key in erc721_tokens) {
                 //    erc_toks+=key+": "+erc721_tokens[key]+"\n";
@@ -188,6 +190,10 @@ function app() {
                 // document.getElementById("erc721_amount").innerHTML = erc_toks;
                 });
           }
+          $('#eth-bequeathals').DataTable({data: totalEthData, searching: false, paging: false,
+            "language": {"emptyTable": "You have no Bequeathals of Ethereum"}});
+          $('#erc20-bequeathals').DataTable({data: totalErc20_tokens, searching: false, paging: false,
+              "language": {"emptyTable": "You have no Bequeathals of ERC-20 tokens"}});
 
 
         })
