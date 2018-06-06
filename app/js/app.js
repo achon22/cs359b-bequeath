@@ -174,7 +174,9 @@ function app() {
                 var erc20_toks = "ERC20 Tokens: \n";
                 console.log(erc20_tokens);
                 for (var key in erc20_tokens) {
-                  console.log('key: ' + key + ' -> ' + erc20_tokens[key]);
+                  var symbol = get_symbol(key);
+                  console.log('symbol is ' + symbol)
+                  console.log('Token: ' + symbol + ' -> ' + erc20_tokens[key]);
                    erc20_toks+=key+": "+web3.utils.fromWei(erc20_tokens[key])+"\n";
                 }
                 document.getElementById("erc20_amount").innerHTML = erc20_toks;
@@ -298,7 +300,7 @@ function app() {
               });
             }
           })(_erc20contract));
-        
+
       }
 
       $(function () {
