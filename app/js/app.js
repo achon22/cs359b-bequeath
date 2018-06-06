@@ -261,7 +261,7 @@ function app() {
         for (var i = 0; i < num; i++) {
             var _erc20contract = document.getElementById('erc20_' + i).value;
             var _erc20amount = document.getElementById('erc20amount_' + i).value;
-            var abi_url = `http://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=` + _erc20contract + `&apikey=DABZHWXSF6ZGBVFH4VKD9B8QCW2ZHFZJQ8HI`; // + process.env.ETHERSCAN_API_KEY
+            var abi_url = `https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=` + _erc20contract + `&apikey=DABZHWXSF6ZGBVFH4VKD9B8QCW2ZHFZJQ8HI`; // + process.env.ETHERSCAN_API_KEY
             $.get(abi_url, (function(_erc20contract, _erc20amount) {
                 return function(data) {
                     $.get(abi_url, function(data) {
@@ -279,7 +279,7 @@ function app() {
 
 
     function get_symbol(_erc20contract) {
-        var abi_url = `http://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=` + _erc20contract + `&apikey=DABZHWXSF6ZGBVFH4VKD9B8QCW2ZHFZJQ8HI`; // + process.env.ETHERSCAN_API_KEY
+        var abi_url = `https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=` + _erc20contract + `&apikey=DABZHWXSF6ZGBVFH4VKD9B8QCW2ZHFZJQ8HI`; // + process.env.ETHERSCAN_API_KEY
         var symbol = $.get(abi_url, (function(_erc20contract) {
             return function(data) {
                 $.get(abi_url, function(data) {
