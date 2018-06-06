@@ -167,6 +167,7 @@ function app() {
                             var date = new Date(1000 * dates[i]);
                             var order = '# ' + (i + 1) + ' of ' + beneficiaries.length
                             var success = erc20_table.row.add([date.toLocaleString(), contractAddress, web3.utils.fromWei(amount), order]).draw(true);
+                            get_symbol(contractAddress)
                         }
                     }
                   }
@@ -174,75 +175,16 @@ function app() {
                 bequeathal(id);
             }
             return [totalEthData, totalErc20_tokens, totalErc721_tokens];
-
-/**
-.then(function(bequeathal) {
-    var tokenType = bequeathal[0];
-    var amount = bequeathal[1];
-    var beneficiaries = bequeathal[2];
-    var dates = bequeathal[3];
-    var contractAddress = bequeathal[4];
-    var bequeathalData = {}
-    if (tokenType == "1") {
-        for (var i = 0; i < beneficiaries.length; i++) {
-            var addr = beneficiaries[i];
-            if (addr == address) {
-                var date = new Date(1000 * dates[i]);
-                var order = 'Number ' + (i + 1) + ' out of ' + beneficiaries.length
-                // console.log([date.toLocaleString(), web3.utils.fromWei(amount), order])
-                if (bequeathalData["1"] == undefined){
-                  bequeathalData["1"] = [[date.toLocaleString(), web3.utils.fromWei(amount), order]]
-                }else{
-                  bequeathalData["1"] = bequeathalData["1"].push([date.toLocaleString(), web3.utils.fromWei(amount), order])
-                }
-            }
-        }
-    } else if (tokenType == "20") {
-    for (var i = 0; i < beneficiaries.length; i++) {
-        var addr = beneficiaries[i];
-        if (addr == address) {
-            var date = new Date(1000 * dates[i]);
-            var order = 'Number ' + (i + 1) + ' out of ' + beneficiaries.length
-            // console.log([date.toLocaleString(), contractAddress, web3.utils.fromWei(amount), order])
-            if (bequeathalData["20"] === undefined){
-              bequeathalData["20"] = [[date.toLocaleString(), contractAddress, web3.utils.fromWei(amount), order]]
-            }else{
-              bequeathalData["20"] = bequeathalData["20"].push([date.toLocaleString(), contractAddress, web3.utils.fromWei(amount), order])
-            }
-        }
-    }
-    }
-    console.log(bequeathalData)
-    return bequeathalData;
-}).then(function(bequeathalData){
-  console.log(bequeathalData)
-  var ethers = bequeathalData["1"]
-  var erc20s = bequeathalData["20"]
-  if (ethers !== undefined){
-    totalEthData = totalEthData.concat(ethers);
-  }
-  if (erc20s !== undefined){
-    totalErc20_tokens = totalErc20_tokens.concat(erc20s);
-  }
-})
-*/
-
-
         })
         .catch(function(e) {
             console.log(e);
         })
-      var totalEthData = all_data[0];
-      var totalErc20_tokens = all_data[1];
-      var totalErc721_tokens = all_data[2];
     }
 
 
     $("#createTrustButton").click(function() {
         var toAddress = $("#address_0").val();
         var amount = parseFloat($("#amount").val());
-        // var date = new Date($("#datepicker").val()).getTime()/1000;
-        // var datetime = new Date($('#datetime0').val()).getTime()/1000;
         console.log(toAddress);
         console.log(amount);
         // TODO: type checking and error handling
@@ -338,18 +280,18 @@ function app() {
 
     function get_symbol(_erc20contract) {
         var abi_url = `http://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=` + _erc20contract + `&apikey=DABZHWXSF6ZGBVFH4VKD9B8QCW2ZHFZJQ8HI`; // + process.env.ETHERSCAN_API_KEY
-        $.get(abi_url, (function(_erc20contract) {
+        var symbol = $.get(abi_url, (function(_erc20contract) {
             return function(data) {
                 $.get(abi_url, function(data) {
                     abi = JSON.parse(data.result);
                     tokenContract = new web3.eth.Contract(abi, _erc20contract);
-                    // console.log(tokenContract.options.jsonInterface);
-                    return tokenContract.methods.symbol().call();
+                    tokenContract.methods.symbol().call().then(console.log);
                     // tokenContract.methods.approve(contractAddress, web3.utils.toWei(_erc20amount.toString(), 'ether')).send({from: userAccount});
                 });
             }
         })(_erc20contract));
-
+        console.log(symbol);
+        return symbol
     }
 
     $(function() {
