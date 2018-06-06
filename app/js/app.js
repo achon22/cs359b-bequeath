@@ -144,6 +144,7 @@ function app() {
           var totalErc721_tokens = [];
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
+                if (id == 0) continue;
                 var bequeathal = async (id) => {
                   var bequeathal = await contract.methods.viewBequeathal(id).call();
                   var tokenType = bequeathal[0];
@@ -192,13 +193,25 @@ function app() {
     });
 
     function claim() {
-        contract.methods.claim().send({
-                from: userAccount,
-                gas: 250000
-            })
-            .catch(function(e) {
-                console.log(e);
-            });
+      var all_data = contract.methods.viewMyIds(userAccount).call()
+        .then(function(ids) {
+          var totalEthData = [];
+          var totalErc20_tokens = [];
+          var totalErc721_tokens = [];
+            for (var i = 0; i < ids.length; i++) {
+                var id = ids[i];
+                var bequeathal = async (id) => {
+                  contract.methods.claimId(id).send({
+                          from: userAccount
+                      })
+                      .catch(function(e) {
+                          console.log(e);
+                      });
+                }
+                bequeathal(id);
+            }
+            return [totalEthData, totalErc20_tokens, totalErc721_tokens];
+        })
     }
 
     $("#claimTrust").click(function() {
