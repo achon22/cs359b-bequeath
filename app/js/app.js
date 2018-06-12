@@ -1,6 +1,16 @@
 function app() {
     //if (web3.currentProvider.isMetaMask === false) window.alert('No Metamask detected');
     web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
+    web3.eth.net.getId().then(netId => {
+      console.log(netId);
+      switch (netId) {
+        case 4:
+          networkName = "Rinkeby";
+          break;
+        default:
+          window.alert("This dapp only runs on the Rinkeby network");
+      }
+    })
     console.log("Using web3 version: " + Web3.version);
 
     var contract;
@@ -319,7 +329,6 @@ window.addEventListener('load', function() {
   if (typeof web3 === 'undefined') {
     window.alert('No web3? You should consider trying MetaMask!')
   }
-
   // Now you can start your app & access web3 freely:
   app()
 })
