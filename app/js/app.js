@@ -1,5 +1,5 @@
 function app() {
-    if (typeof web3 == 'undefined') throw 'No web3 detected. Is Metamask/Mist being used?';
+    //if (web3.currentProvider.isMetaMask === false) window.alert('No Metamask detected');
     web3 = new Web3(web3.currentProvider); // MetaMask injected Ethereum provider
     console.log("Using web3 version: " + Web3.version);
 
@@ -313,4 +313,14 @@ function app() {
     });
 
 }
-$(document).ready(app);
+window.addEventListener('load', function() {
+
+  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  if (typeof web3 === 'undefined') {
+    window.alert('No web3? You should consider trying MetaMask!')
+  }
+
+  // Now you can start your app & access web3 freely:
+  app()
+})
+//$(document).ready(app);
